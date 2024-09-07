@@ -10,9 +10,10 @@
     />
   </head>
   <body class="bg-gray-900 flex items-center justify-center min-h-screen">
-    <div class="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
+    <div class="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md my-8">
+      <!-- Changed my-12 to my-8 -->
       <h2 class="text-2xl font-bold mb-6 text-center text-white">Register</h2>
-      <form action="/register" method="POST">
+      <form action="/register" method="POST" class="mb-6">
         <div class="mb-4">
           <label for="name" class="block text-sm font-medium text-gray-300"
             >Name</label
@@ -80,6 +81,14 @@
           Submit
         </button>
       </form>
+      <p class="text-center mt-4 mb-0 text-gray-400">
+        Already have an account?
+        <span
+          class="text-blue-500 font-medium hover:text-blue-400 transition-colors duration-200"
+        >
+          <a href="/login" class="hover:underline">Login</a>
+        </span>
+      </p>
     </div>
   </body>
 </html>
