@@ -53,7 +53,12 @@ app.post("/login", async (req, res) => {
 
   // eslint-disable-next-line consistent-return
   bcrypt.compare(password, user.password, (err, result) => {
-    if (result) return res.send("You Are Logged In");
+    if (result) {
+      // eslint-disable-next-line no-underscore-dangle
+      const token = jwt.sign({ email, userId: user._id }, "secret");
+      res.cookie("token", token);
+      return res.send("You Are Logged In");
+    }
     res.status(500).redirect("/");
   });
 });
@@ -61,6 +66,19 @@ app.post("/login", async (req, res) => {
 app.get("/logout", (req, res) => {
   res.cookie("token", "");
   res.redirect("/login");
+});
+
+const isLoggedIn = (req, res, next) => {
+  if (req.cookies.token === "") res.send("You need to be login first");
+  else {
+    const data = jwt.verify(req.cookies.token, "secret");
+    req.user = data;
+    next();
+  }
+};
+
+app.get("/profile", isLoggedIn, (req, res) => {
+  res.send("Profilee");
 });
 
 // server listen
