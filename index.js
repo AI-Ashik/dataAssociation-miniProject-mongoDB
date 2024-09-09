@@ -30,17 +30,15 @@ app.post("/register", async (req, res) => {
 
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(password, salt, async (_err, hash) => {
-      const newUser = await userModel.create({
+      await userModel.create({
         name,
         username,
         email,
         age,
         password: hash,
       });
-      // eslint-disable-next-line no-underscore-dangle
-      const token = jwt.sign({ email, userId: newUser._id }, "secret");
-      res.cookie("token", token);
-      res.send("User is Registered!");
+
+      res.redirect("/login");
     });
   });
 });
@@ -57,7 +55,7 @@ app.post("/login", async (req, res) => {
       // eslint-disable-next-line no-underscore-dangle
       const token = jwt.sign({ email, userId: user._id }, "secret");
       res.cookie("token", token);
-      return res.send("You Are Logged In");
+      return res.redirect("/profile");
     }
     res.status(500).redirect("/");
   });
@@ -69,7 +67,7 @@ app.get("/logout", (req, res) => {
 });
 
 const isLoggedIn = (req, res, next) => {
-  if (req.cookies.token === "") res.send("You need to be login first");
+  if (req.cookies.token === "") res.redirect("/login");
   else {
     const data = jwt.verify(req.cookies.token, "secret");
     req.user = data;
@@ -77,8 +75,9 @@ const isLoggedIn = (req, res, next) => {
   }
 };
 
-app.get("/profile", isLoggedIn, (req, res) => {
-  res.send("Profilee");
+app.get("/profile", isLoggedIn, async (req, res) => {
+  const user = await userModel.findOne({ email: req.user.email });
+  res.render("profile", { user });
 });
 
 // server listen
