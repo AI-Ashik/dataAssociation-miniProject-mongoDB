@@ -10,7 +10,7 @@
     />
   </head>
   <body
-    class="bg-gray-900 flex flex-col items-center justify-center min-h-screen relative"
+    class="bg-gray-900 flex flex-col items-center justify-center min-h-screen relative mt-4 mb-4"
   >
     <div class="absolute top-4 right-4">
       <a href="/logout">
@@ -28,7 +28,7 @@
 
     <div class="bg-gray-800 rounded-lg p-6 w-full max-w-md">
       <p class="text-gray-400 mb-4">You can write posts here</p>
-      <form action="" class="mb-4">
+      <form action="/post" method="POST" class="mb-4">
         <textarea
           name=""
           id=""
@@ -44,13 +44,29 @@
       </form>
       <div>
         <h2 class="text-white font-bold mb-2">Your posts</h2>
+        <!--  -->
         <div class="bg-gray-700 rounded-lg p-4 mb-2">
           <h4 class="text-blue-500 font-bold mb-1">@dummyData</h4>
           <p class="text-gray-400">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut,
             nesciunt?
           </p>
+          <div class="flex space-x-4 mt-2">
+            <a
+              href=""
+              class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded-md transition duration-200"
+            >
+              Like
+            </a>
+            <a
+              href=""
+              class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-1 px-3 rounded-md transition duration-200"
+            >
+              Edit
+            </a>
+          </div>
         </div>
+        <!--  -->
       </div>
     </div>
   </body>
