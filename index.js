@@ -1,9 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userModel = require("./models/user");
+const postModel = require("./models/post");
 
 const PORT = 3000;
 const app = express();
@@ -76,8 +78,24 @@ const isLoggedIn = (req, res, next) => {
 };
 
 app.get("/profile", isLoggedIn, async (req, res) => {
-  const user = await userModel.findOne({ email: req.user.email });
+  const user = await userModel
+    .findOne({ email: req.user.email })
+    .populate("posts");
+  console.log(user);
   res.render("profile", { user });
+});
+
+app.post("/post", isLoggedIn, async (req, res) => {
+  const user = await userModel.findOne({ email: req.user.email });
+  const { content } = req.body;
+
+  const post = await postModel.create({
+    user: user._id,
+    content,
+  });
+  user.posts.push(post._id);
+  await user.save();
+  res.redirect("/profile");
 });
 
 // server listen

@@ -30,10 +30,11 @@
       <p class="text-gray-400 mb-4">You can write posts here</p>
       <form action="/post" method="POST" class="mb-4">
         <textarea
-          name=""
-          id=""
+          name="content"
+          id="content"
           class="bg-gray-700 text-white rounded-lg p-2 w-full h-20 focus:outline-none focus:ring focus:ring-blue-500 resize-none"
           placeholder="Write your post..."
+          required
         ></textarea>
         <button
           type="submit"
@@ -45,27 +46,26 @@
       <div>
         <h2 class="text-white font-bold mb-2">Your posts</h2>
         <!--  -->
+        <% user.posts.reverse().forEach((post)=>{ %>
         <div class="bg-gray-700 rounded-lg p-4 mb-2">
-          <h4 class="text-blue-500 font-bold mb-1">@dummyData</h4>
-          <p class="text-gray-400">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut,
-            nesciunt?
-          </p>
+          <h4 class="text-blue-500 font-bold mb-1">@<%= user.username %></h4>
+          <p class="text-gray-400"><%= post.content %></p>
           <div class="flex space-x-4 mt-2">
             <a
               href=""
-              class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded-md transition duration-200"
+              class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-2 text-sm rounded-md transition duration-200"
             >
               Like
             </a>
             <a
               href=""
-              class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-1 px-3 rounded-md transition duration-200"
+              class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-1 px-2 text-sm rounded-md transition duration-200"
             >
               Edit
             </a>
           </div>
         </div>
+        <% }) %>
         <!--  -->
       </div>
     </div>
