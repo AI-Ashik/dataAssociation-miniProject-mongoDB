@@ -69,9 +69,10 @@ app.get("/logout", (req, res) => {
 });
 
 const isLoggedIn = (req, res, next) => {
-  if (req.cookies.token === "") res.redirect("/login");
+  const { token } = req.cookies;
+  if (!token) res.redirect("/login");
   else {
-    const data = jwt.verify(req.cookies.token, "secret");
+    const data = jwt.verify(token, "secret");
     req.user = data;
     next();
   }
